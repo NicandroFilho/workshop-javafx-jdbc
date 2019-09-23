@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import application.Main;
+import model.services.DepartmentService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +34,7 @@ public class MainViewController implements Initializable {
     @FXML
     public void onMenuItemDepartmentAction(){
         //load the View of Department
-        loadView("/gui/DepartmentList.fxml");
+        loadView2("/gui/DepartmentList.fxml");
     }
 
     @FXML
@@ -60,7 +61,27 @@ public class MainViewController implements Initializable {
             mainVBox.getChildren().add(mainMenu); //Add the main Menu back in the VBox, cleaned;
             mainVBox.getChildren().addAll(newVBox.getChildren()); //Add all the Children of the new VBox in the Main VBox.
 
+        }catch (IOException e){
+            Alerts.showAlert("IO Exception", "Error loading View", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+    private void loadView2(String absoluteName) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            VBox newVBox = loader.load();
 
+            Scene mainScene = Main.getMainScene();
+            VBox mainVBox = (VBox) (((ScrollPane)mainScene.getRoot()).getContent()); //get the main VBox
+
+            Node mainMenu = mainVBox.getChildren().get(0); //stores the firs children of main VBox. In this case, The Main Menu.
+            mainVBox.getChildren().clear(); //Clear all the Children in VBox
+            mainVBox.getChildren().add(mainMenu); //Add the main Menu back in the VBox, cleaned;
+            mainVBox.getChildren().addAll(newVBox.getChildren()); //Add all the Children of the new VBox in the Main VBox.
+
+            //Carregando os dados do Department TableView
+            DepartmentListController controller = loader.getController();
+            controller.setDepartmentService(new DepartmentService());
+            controller.updateTableView();
 
         }catch (IOException e){
             Alerts.showAlert("IO Exception", "Error loading View", e.getMessage(), Alert.AlertType.ERROR);
