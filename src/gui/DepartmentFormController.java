@@ -6,13 +6,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Department;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class DepartmentFormController implements Initializable {
 
-    /*Attributes*/
+    /*The entity related to this form*/
+    private Department entity;
+
+    /*Form Attributes*/
+
     @FXML
     private TextField txtId;
     @FXML
@@ -46,5 +51,17 @@ public class DepartmentFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeNodes();
+    }
+
+    public void setDepartment(Department entity){
+        this.entity = entity;
+    }
+
+    public void updateFormData(){
+        if(entity == null){
+            throw new IllegalStateException("The entity is null");
+        }
+        txtId.setText(String.valueOf(entity.getId()));
+        txtName.setText(entity.getName());
     }
 }
