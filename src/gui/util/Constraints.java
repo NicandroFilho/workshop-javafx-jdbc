@@ -21,7 +21,7 @@ public class Constraints {
 
     public static void setTextFiledDouble(TextField textField){
         textField.textProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null && !newValue.matches("\\d*([.]\\d*)?")){
+            if (newValue != null && !newValue.matches("\\d*([,]\\d*)?")){
                 textField.setText(oldValue);
             }
         });
