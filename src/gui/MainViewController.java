@@ -20,12 +20,10 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 public class MainViewController implements Initializable {
-    @FXML
-    private MenuItem menuItemSeller;
-    @FXML
-    private MenuItem menuItemDepartment;
-    @FXML
-    private MenuItem menuItemAbout;
+
+    public MenuItem menuItemAbout;
+    public MenuItem menuItemDepartment;
+    public MenuItem menuItemSeller;
 
     @FXML
     public void onMenuItemSellerAction(){

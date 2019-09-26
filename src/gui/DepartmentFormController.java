@@ -21,6 +21,8 @@ import java.util.*;
 
 public class DepartmentFormController implements Initializable {
 
+    public Button btCancel;
+    public Button btSave;
     /*Dependencies*/
     private Department entity;
     private DepartmentService service;
@@ -32,10 +34,6 @@ public class DepartmentFormController implements Initializable {
     private TextField txtId;
     @FXML
     private TextField txtName;
-    @FXML
-    private Button btSave;
-    @FXML
-    private Button btCancel;
     @FXML
     private Label labelErrorName;
     
@@ -102,11 +100,11 @@ public class DepartmentFormController implements Initializable {
         this.entity = entity;
     }
 
-    public void setDepartmentService(DepartmentService service){
+    void setDepartmentService(DepartmentService service){
         this.service = service;
     }
 
-    public void updateFormData(){
+    void updateFormData(){
         if(entity == null){
             throw new IllegalStateException("The entity is null");
         }
@@ -114,7 +112,7 @@ public class DepartmentFormController implements Initializable {
         txtName.setText(entity.getName());
     }
 
-    public void subscribeDataChangeListener(DataChangeListener listener){
+    void subscribeDataChangeListener(DataChangeListener listener){
         dataChangeListeners.add(listener);
     }
 

@@ -30,7 +30,6 @@ public class SellerFormController implements Initializable {
     private SellerService service;
     private DepartmentService departmentService;
     private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
-    private ObservableList<Department> obsList;
 
     /*Form Attributes*/
 
@@ -123,16 +122,16 @@ public class SellerFormController implements Initializable {
         initializeNodes();
     }
 
-    public void setSeller(Seller entity){
+    void setSeller(Seller entity){
         this.entity = entity;
     }
 
-    public void setSellerServices(SellerService service, DepartmentService departmentService){
+    void setSellerServices(SellerService service, DepartmentService departmentService){
         this.service = service;
         this.departmentService = departmentService;
     }
 
-    public void updateFormData(){
+    void updateFormData(){
         if(entity == null){
             throw new IllegalStateException("The entity is null");
         }
@@ -150,7 +149,7 @@ public class SellerFormController implements Initializable {
         }
     }
 
-    public void subscribeDataChangeListener(DataChangeListener listener){
+    void subscribeDataChangeListener(DataChangeListener listener){
         dataChangeListeners.add(listener);
     }
 
@@ -161,17 +160,17 @@ public class SellerFormController implements Initializable {
         }
     }
 
-    public void loadAssociatedObjects(){
+    void loadAssociatedObjects(){
         if(departmentService == null){
             throw new IllegalStateException("DepartmentService is null");
         }
         List<Department> list = departmentService.findAll();
-        obsList = FXCollections.observableArrayList(list);
+        ObservableList<Department> obsList = FXCollections.observableArrayList(list);
         comboBoxDepartment.setItems(obsList);
     }
 
     private void initializeComboBoxDepartment() {
-        Callback<ListView<Department>, ListCell<Department>> factory = lv -> new ListCell<Department>() {
+        Callback<ListView<Department>, ListCell<Department>> factory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(Department item, boolean empty) {
                 super.updateItem(item, empty);

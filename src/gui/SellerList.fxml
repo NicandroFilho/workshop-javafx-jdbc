@@ -4,31 +4,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="395.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="gui.SellerListController">
-   <children>
-      <Label text="Seller Registration">
-         <font>
-            <Font name="System Bold" size="14.0" />
-         </font>
-         <padding>
-            <Insets left="5.0" top="5.0" />
-         </padding>
-      </Label>
-      <ToolBar prefHeight="40.0" prefWidth="200.0">
-        <items>
-          <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="New" />
-        </items>
-      </ToolBar>
-      <TableView fx:id="tableViewSeller" prefHeight="200.0" prefWidth="200.0">
-        <columns>
-          <TableColumn fx:id="tableColumnId" prefWidth="41.0" text="Id" />
-          <TableColumn fx:id="tableColumnName" prefWidth="238.0" text="Name" />
-            <TableColumn fx:id="tableColumnEmail" minWidth="0.0" prefWidth="162.0" text="Email" />
-            <TableColumn fx:id="tableColumnBirthDate" prefWidth="101.0" text="Birth Date" />
-            <TableColumn fx:id="tableColumnBaseSalary" prefWidth="110.0" text="Base Salary" />
-            <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="58.0" />
-            <TableColumn fx:id="tableColumnREMOVE" minWidth="9.0" prefWidth="98.0" />
-        </columns>
-      </TableView>
-   </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="395.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="gui.SellerListController">
+    <Label text="Seller Registration">
+        <font>
+          <Font name="System Bold" size="14.0"/>
+        </font>
+        <padding>
+          <Insets left="5.0" top="5.0"/>
+        </padding>
+    </Label>
+    <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <Button fx:id="btNew" mnemonicParsing="false" onAction="#onBtNewAction" text="New"/>
+    </ToolBar>
+    <TableView fx:id="tableViewSeller" prefHeight="200.0" prefWidth="200.0">
+      <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="41.0" text="Id"/>
+          <TableColumn fx:id="tableColumnName" prefWidth="238.0" text="Name"/>
+          <TableColumn fx:id="tableColumnEmail" minWidth="0.0" prefWidth="162.0" text="Email"/>
+          <TableColumn fx:id="tableColumnBirthDate" prefWidth="101.0" text="Birth Date"/>
+          <TableColumn fx:id="tableColumnBaseSalary" prefWidth="110.0" text="Base Salary"/>
+          <TableColumn fx:id="tableColumnEDIT" minWidth="0.0" prefWidth="58.0"/>
+          <TableColumn fx:id="tableColumnREMOVE" minWidth="9.0" prefWidth="98.0"/>
+      </columns>
+    </TableView>
 </VBox>

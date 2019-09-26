@@ -29,8 +29,8 @@ import java.util.ResourceBundle;
 
 public class DepartmentListController implements Initializable, DataChangeListener {
 
+    public Button btNew;
     private DepartmentService service;
-    private ObservableList<Department> obsList;
 
 
     @FXML
@@ -48,20 +48,17 @@ public class DepartmentListController implements Initializable, DataChangeListen
     @FXML
     private TableColumn<Department,Department> tableColumnREMOVE;
 
-    @FXML
-    private Button btNew;
 
-
-    public void setDepartmentService (DepartmentService service){
+    void setDepartmentService(DepartmentService service){
         this.service = service;
     }
 
-    public void updateTableView(){
+    void updateTableView(){
         if(service == null){
             throw new IllegalStateException("Service is Null!");
         }
         List<Department> list = service.findAll(); //Carrega os dados da Tabela de Department na Lista
-        obsList = FXCollections.observableArrayList(list); // Coloca os dados da Lista no ObservableList
+        ObservableList<Department> obsList = FXCollections.observableArrayList(list); // Coloca os dados da Lista no ObservableList
         tableViewDepartment.setItems(obsList); // Atualiza os dados do TableView com os dados do ObservableList
         initEditButtons(); //update the edit buttons column to show the buttons on the existent rows
         initRemoveButtons();
@@ -71,7 +68,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
     public void onBtNewAction(ActionEvent event){
         Stage parentStage = Utils.currentStage(event);
         Department obj = new Department();
-        createDialogForm(obj,"/gui/DepartmentForm.fxml", parentStage);
+        createDialogForm(obj, parentStage);
     }
 
     @Override
@@ -91,27 +88,27 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
     private void initEditButtons(){
         tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-        tableColumnEDIT.setCellFactory(param -> new TableCell<Department, Department>() {
+        tableColumnEDIT.setCellFactory(param -> new TableCell<>() {
             private final Button button = new Button("edit");
 
             @Override
-            protected void updateItem(Department obj, boolean empty){
-                super.updateItem(obj,empty);
+            protected void updateItem(Department obj, boolean empty) {
+                super.updateItem(obj, empty);
 
-                if(obj == null){
+                if (obj == null) {
                     setGraphic(null);
                     return;
                 }
                 setGraphic(button);
                 button.setOnAction(
-                        event -> createDialogForm(obj, "/gui/DepartmentForm.fxml", Utils.currentStage(event)));
+                        event -> createDialogForm(obj, Utils.currentStage(event)));
             }
         });
     }
 
     private void initRemoveButtons(){
         tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-        tableColumnREMOVE.setCellFactory(param -> new TableCell<Department, Department>() {
+        tableColumnREMOVE.setCellFactory(param -> new TableCell<>() {
             private final Button button = new Button("remove");
 
             @Override
@@ -130,22 +127,24 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
     private void removeEntity(Department obj) {
         Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure you want to DELET this Department?");
-        if(result.get() == ButtonType.OK){
-            if(service == null){
-                throw new IllegalStateException("Service is null");
-            }
-            try {
-                service.remove(obj);
-                updateTableView();
-            }catch (DbIntegrityException e){
-                Alerts.showAlert("Error removing object from Data Base", null, e.getMessage(), Alert.AlertType.ERROR);
+        if(result.isPresent()) {
+            if (result.get() == ButtonType.OK) {
+                if (service == null) {
+                    throw new IllegalStateException("Service is null");
+                }
+                try {
+                    service.remove(obj);
+                    updateTableView();
+                } catch (DbIntegrityException e) {
+                    Alerts.showAlert("Error removing object from Data Base", null, e.getMessage(), Alert.AlertType.ERROR);
+                }
             }
         }
     }
 
-    private void createDialogForm(Department obj, String absoluteName, Stage parentStage){
+    private void createDialogForm(Department obj, Stage parentStage){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/DepartmentForm.fxml"));
             Pane pane = loader.load();
 
             DepartmentFormController controller = loader.getController();
