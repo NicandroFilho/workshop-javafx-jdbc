@@ -35,19 +35,14 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
     @FXML
     private TableView<Department> tableViewDepartment;
-
     @FXML
     private TableColumn<Department, Integer> tableColumnId;
-
     @FXML
     private TableColumn<Department, String> tableColumnName;
-
     @FXML
     private TableColumn<Department,Department> tableColumnEDIT;
-
     @FXML
     private TableColumn<Department,Department> tableColumnREMOVE;
-
     @FXML
     private Button btNew;
 

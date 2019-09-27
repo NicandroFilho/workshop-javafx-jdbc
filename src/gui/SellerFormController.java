@@ -19,6 +19,7 @@ import model.services.DepartmentService;
 import model.services.SellerService;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -93,10 +94,29 @@ public class SellerFormController implements Initializable {
         ValidationException exception = new ValidationException("Validation Error");
         obj.setId(Utils.tryParseToInt(txtId.getText()));
 
-        if(txtName.getText() == null || txtName.getText().trim().equals("")) {
-            exception.addError("Name", "Field can't be empty.");
+        if (txtName.getText() == null || txtName.getText().trim().equals("")) {
+            exception.addError("Name", " Inform Seller name.");
         }
         obj.setName(txtName.getText());
+
+        if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+            exception.addError("Email", " Inform Seller e-mail");
+        }
+        obj.setEmail(txtEmail.getText());
+
+        if (dpBirthDate.getValue() == null) {
+            exception.addError("Birth Date", " Select Seller birth date");
+        } else{
+            Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
+            obj.setBirthDate(Date.from(instant));
+        }
+
+        if(txtBaseSalary.getText() == null || txtBaseSalary.getText().trim().equals("")) {
+            exception.addError("Base Salary", " Inform the Seller base salary");
+        }
+        obj.setBaseSalary(Utils.tryParseToDouble(txtBaseSalary.getText()));
+
+        obj.setDepartment(comboBoxDepartment.getValue());
 
         if(exception.getErrors().size() > 0){
             throw exception;
@@ -139,6 +159,7 @@ public class SellerFormController implements Initializable {
         txtId.setText(String.valueOf(entity.getId()));
         txtName.setText(entity.getName());
         txtEmail.setText(entity.getEmail());
+        Locale.setDefault(Locale.US);
         txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
         if(entity.getBirthDate() != null) {
             dpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
@@ -156,9 +177,10 @@ public class SellerFormController implements Initializable {
 
     private void setErrorMessages(Map<String, String> errors){
         Set<String> fields = errors.keySet();
-        if(fields.contains("Name")){
-            labelErrorName.setText(errors.get("Name"));
-        }
+        labelErrorName.setText(fields.contains("Name") ? errors.get("Name") : "");
+        labelErrorEmail.setText(fields.contains("Email") ? errors.get("Email") : "");
+        labelErrorBirthDate.setText(fields.contains("Birth Date") ? errors.get("Birth Date") : "");
+        labelErrorBaseSalary.setText(fields.contains("Base Salary") ? errors.get("Base Salary") : "");
     }
 
     public void loadAssociatedObjects(){
